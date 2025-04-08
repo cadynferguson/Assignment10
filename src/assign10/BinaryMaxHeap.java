@@ -20,7 +20,6 @@ public class BinaryMaxHeap<E extends Comparable<? super E>> implements PriorityQ
         this.cmp = cmp;
     }
 
-    //THIS IS NOT DONE
     public BinaryMaxHeap(List<? extends E> list) {
         elementCount = 0;
         array = (E[]) new Comparable[list.size()];

@@ -25,6 +25,10 @@ public class DeltaSorter {
 	 */
 	public static <T extends Comparable<? super T>> void sort(List<T> list, int delta){
 		ArrayList<T> deltaList = new ArrayList<>();
+//		for (int i = 0; i < list.size(); i++) {
+//			System.out.println(list.get(i));
+//		}
+//		System.out.println("\n");
 		for (int i = 0; i < delta; i++) {
 			deltaList.add(list.get(i));
 		}
@@ -38,6 +42,10 @@ public class DeltaSorter {
 		for (int i = list.size() - delta; i < list.size(); i++) {
 			list.set(i, heap.extractMax());
 		}
+
+//		for (int i = 0; i < list.size(); i++) {
+//			System.out.println(list.get(i));
+//		}
 
 
 	}
@@ -54,6 +62,20 @@ public class DeltaSorter {
 	 *         equal to the size of the list
 	 */
 	public static <T> void sort(List<T> list, int delta, Comparator<? super T> cmp){
-		
+		ArrayList<T> deltaList = new ArrayList<>();
+		for (int i = 0; i < delta; i++) {
+			deltaList.add(list.get(i));
+		}
+		BinaryMaxHeap<T> heap = new BinaryMaxHeap<>(deltaList, cmp);
+
+		for (int i = delta; i < list.size(); i++) {
+			heap.add(list.get(i));
+			list.set(i - delta, heap.extractMax());
+		}
+
+		for (int i = list.size() - delta; i < list.size(); i++) {
+			list.set(i, heap.extractMax());
+		}
+
 	}
 }

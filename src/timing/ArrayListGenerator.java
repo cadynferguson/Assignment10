@@ -95,4 +95,35 @@ public class ArrayListGenerator {
         }
         return array;
     }
+
+    public static ArrayList<Integer> generateDescendingArrayList(int problemSize) {
+        ArrayList<Integer> array = new ArrayList<>(problemSize);
+        for(int i = problemSize - 1; i >= 0; i--) {
+            array.set(i, i);
+        }
+        return array;
+    }
+    private static void swapArrayListElements(ArrayList<Integer> array, int idx1, int idx2) {
+        int tmp = array.get(idx1);
+        array.set(idx1, array.get(idx2));
+        array.set(idx2, tmp);
+    }
+    /**
+     * Generates an ArrayList of problemSize random integers in a descending, delta-sorted order.
+     *
+     * @implNote calls generateDescendingArray and then shuffles sub-lists of size delta + 1.
+     * @param problemSize - size of the list
+     * @param delta - parameter for delta sorting
+     */
+    public static ArrayList<Integer> generateDescendingDeltaSortedArrayList(int problemSize, int delta) {
+        ArrayList<Integer> list = generateDescendingArray(problemSize);
+        Random rng = new Random();
+        for(int start = 0; start < problemSize; start += delta + 1) {
+            int end = Math.min(start + delta + 1, problemSize);
+            for(int i = start; i < end; i++)
+                swapArrayListElements(list, i, rng.nextInt(start, end));
+        }
+        return list;
+    }
+
 }
