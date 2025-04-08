@@ -23,7 +23,7 @@ public class BinaryMaxHeap<E extends Comparable<? super E>> implements PriorityQ
     //THIS IS NOT DONE
     public BinaryMaxHeap(List<? extends E> list) {
         elementCount = 0;
-        array = (E[]) new Comparable[10];
+        array = (E[]) new Comparable[list.size()];
 
         elementCount = list.size();
         buildHeap(list);
@@ -32,12 +32,10 @@ public class BinaryMaxHeap<E extends Comparable<? super E>> implements PriorityQ
 
     public BinaryMaxHeap(List<? extends E> list, Comparator<? super E> cmp) {
         this.cmp = cmp;
-        array = (E[]) new Comparable[10];
+        array = (E[]) new Comparable[list.size()];
 
         elementCount = list.size();
         buildHeap(list);
-        for(E item : array)
-            System.out.println(item);
 
     }
 
@@ -68,13 +66,15 @@ public class BinaryMaxHeap<E extends Comparable<? super E>> implements PriorityQ
             if (cmp.compare(array[currentIndex], array[parentIndex]) > 0) {
                 swap(currentIndex, parentIndex);
                 currentIndex = parentIndex;
+            } else {
+                break;
             }
         }
     }
 
     @Override
     public void add(E item) {
-        if (elementCount+1 < array.length) {
+        if (elementCount+1 > array.length) {
             E[] tmpArray = (E[]) new Comparable[array.length*2];
             for (int i = 0; i < array.length; i++) {
                 tmpArray[i] = array[i];
@@ -134,12 +134,13 @@ public class BinaryMaxHeap<E extends Comparable<? super E>> implements PriorityQ
     @Override
     public void clear() {
         array = (E[]) new Comparable[10];
+        elementCount = 0;
     }
 
     @Override
     public Comparable[] toArray() {
         E[] returnArray = (E[]) new Comparable[elementCount];
-        for(int i = 0; i < elementCount; i++) {
+        for (int i = 0; i < elementCount; i++) {
             returnArray[i] = array[i];
         }
 
