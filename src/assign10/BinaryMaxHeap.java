@@ -11,29 +11,44 @@ public class BinaryMaxHeap<E extends Comparable<? super E>> implements PriorityQ
 
     public BinaryMaxHeap() {
         elementCount = 0;
-        array = (E[]) new Object[10];
+        array = (E[]) new Comparable[10];
     }
 
     public BinaryMaxHeap(Comparator<? super E> cmp) {
         elementCount = 0;
-        array = (E[]) new Object[10];
+        array = (E[]) new Comparable[10];
         this.cmp = cmp;
     }
 
     //THIS IS NOT DONE
     public BinaryMaxHeap(List<? extends E> list) {
         elementCount = 0;
-        array = (E[]) new Object[10];
-        for (E item : list) {
-            add(item);
-        }
+        array = (E[]) new Comparable[10];
+
+        elementCount = list.size();
+        buildHeap(list);
 
     }
 
     public BinaryMaxHeap(List<? extends E> list, Comparator<? super E> cmp) {
-        elementCount = 0;
         this.cmp = cmp;
-        array = (E[]) new Object[10];
+        array = (E[]) new Comparable[10];
+
+        elementCount = list.size();
+        buildHeap(list);
+        for(E item : array)
+            System.out.println(item);
+
+    }
+
+    private void buildHeap(List<? extends E> items) {
+        for(int i = 0; i < items.size(); i++) {
+            array[i] = items.get(i);
+        }
+
+        for(int i = (items.size() - 1)/ 2; i >= 0; i--) {
+            percolateDown(i);
+        }
     }
 
     private int parentIndex(int childIndex) {
@@ -60,7 +75,7 @@ public class BinaryMaxHeap<E extends Comparable<? super E>> implements PriorityQ
     @Override
     public void add(E item) {
         if (elementCount+1 < array.length) {
-            E[] tmpArray = (E[]) new Object[array.length*2];
+            E[] tmpArray = (E[]) new Comparable[array.length*2];
             for (int i = 0; i < array.length; i++) {
                 tmpArray[i] = array[i];
             }
@@ -79,9 +94,18 @@ public class BinaryMaxHeap<E extends Comparable<? super E>> implements PriorityQ
     }
 
     private void percolateDown(int currentIndex) {
-        int childIndexRight;
-        int childIndexLeft;
-        while ()
+        int childIndexLeft = (2 * currentIndex) + 1;
+        int childIndexRight = (2 * currentIndex) + 2;
+        int largest = currentIndex;
+        if(childIndexLeft < elementCount && cmp.compare(array[childIndexLeft], array[largest]) > 0)
+            largest = childIndexLeft;
+        if(childIndexRight < elementCount && cmp.compare(array[childIndexRight], array[largest]) > 0)
+            largest = childIndexRight;
+
+        if(largest != currentIndex) {
+            swap(currentIndex, largest);
+            percolateDown(largest);
+        }
     }
     @Override
     public E extractMax() throws NoSuchElementException {
@@ -98,21 +122,26 @@ public class BinaryMaxHeap<E extends Comparable<? super E>> implements PriorityQ
 
     @Override
     public int size() {
-        return 0;
+        return elementCount;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return elementCount == 0;
     }
 
     @Override
     public void clear() {
-
+        array = (E[]) new Comparable[10];
     }
 
     @Override
-    public Object[] toArray() {
-        return new Object[0];
+    public Comparable[] toArray() {
+        E[] returnArray = (E[]) new Comparable[elementCount];
+        for(int i = 0; i < elementCount; i++) {
+            returnArray[i] = array[i];
+        }
+
+        return returnArray;
     }
 }
