@@ -36,9 +36,6 @@ public class BinaryMaxHeap<E extends Comparable<? super E>> implements PriorityQ
 
         elementCount = list.size();
         buildHeap(list);
-        for(E item : array)
-            System.out.println(item);
-
     }
 
     private void buildHeap(List<? extends E> items) {
