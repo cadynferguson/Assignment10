@@ -61,7 +61,7 @@ public class DeltaSorter {
 	 * @throws IllegalArgumentException if delta is less than 0 or greater than or
 	 *         equal to the size of the list
 	 */
-	public static <T> void sort(List<T> list, int delta, Comparator<? super T> cmp){
+	public static <T extends Comparable<? super T>> void sort(List<T> list, int delta, Comparator<? super T> cmp){
 		ArrayList<T> deltaList = new ArrayList<>();
 		for (int i = 0; i < delta; i++) {
 			deltaList.add(list.get(i));
