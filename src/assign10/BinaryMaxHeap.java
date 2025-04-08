@@ -115,6 +115,7 @@ public class BinaryMaxHeap<E extends Comparable<? super E>> implements PriorityQ
 
         E returnVal = array[0];
         array[0] = array[elementCount-1];
+        elementCount--;
         percolateDown(0);
 
         return returnVal;
